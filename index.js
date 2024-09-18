@@ -21,10 +21,11 @@ const run = async () => {
     const number = github.context.payload.pull_request.number;
     const MAX_TIMEOUT = Number(core.getInput("max_timeout")) || 60;
     const siteName = core.getInput("site_name");
+    const path = core.getInput("path") || '';
     if (!siteName) {
       core.setFailed("Required field `site_name` was not provided");
     }
-    const url = `https://deploy-preview-${number}--${siteName}.netlify.app`;
+    const url = `https://deploy-preview-${number}--${siteName}.netlify.app/${path}`;
     core.setOutput("url", url);
     console.log(`Waiting for a 200 from: ${url}`);
     await waitForUrl(url, MAX_TIMEOUT);
